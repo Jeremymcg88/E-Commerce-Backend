@@ -1,8 +1,18 @@
 const express = require('express');
-const routes = require('./Develop/routes');
-// This imports sequelize from instance created inside develop/config
-const sequelize = require('./Develop/config/connection');
+const routes = require('./routes');
+// import sequelize connection
 
-// creating handler for requests and routes utilizing express
+const sequelize = require('./config/connection');
+
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(routes);
+
+// sync sequelize models to the database, then turn on the server
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}!`);
+});
